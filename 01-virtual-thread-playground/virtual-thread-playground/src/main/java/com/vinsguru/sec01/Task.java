@@ -1,24 +1,19 @@
 package com.vinsguru.sec01;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.Duration;
 
+@Slf4j
 public class Task {
 
-    private static final Logger log = LoggerFactory.getLogger(Task.class);
-
-    public static void ioIntensive(int i){
-
+    public static void IOIntensiveTask(int i) {
         try {
-            log.info("starting I/O task {}. Thread Info: {}", i, Thread.currentThread());
+            log.info("starting I/O task {}", i);
             Thread.sleep(Duration.ofSeconds(10));
-            log.info("ending I/O task {}. Thread Info: {}", i, Thread.currentThread());
+            log.info("ending I/O task {}", i);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-
     }
-
 }
