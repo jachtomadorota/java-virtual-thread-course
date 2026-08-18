@@ -11,8 +11,9 @@ public class InboundOutboundTaskDemo {
 
     private static void platformThreadDemo() {
         for (int i = 0; i < MAX_PLATFORM; i++) {
-            int finalI = i;
-            Thread thread = new Thread(() -> Task.IOIntensiveTask(finalI));
+            int j = i;
+            Thread thread = new Thread(() -> Task.IOIntensiveTask(j));
+            thread.start();
         }
     }
 }
