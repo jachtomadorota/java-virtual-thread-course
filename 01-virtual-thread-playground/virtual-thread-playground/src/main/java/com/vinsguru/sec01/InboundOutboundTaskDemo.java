@@ -4,10 +4,10 @@ import java.util.concurrent.CountDownLatch;
 
 public class InboundOutboundTaskDemo {
 
-    private static final int MAX_PLATFORM = 10000;
+    private static final int MAX_PLATFORM = 1000000;
 
     static void main() {
-        platformThreadDemo4();
+        virtualThreadDemo();
 
     }
 
@@ -41,6 +41,19 @@ public class InboundOutboundTaskDemo {
     private static void platformThreadDemo4() {
         var latch = new CountDownLatch(MAX_PLATFORM);
         Thread.Builder.OfPlatform builder = Thread.ofPlatform().name("dorota", 1).daemon();
+        for (int i = 0; i < MAX_PLATFORM; i++) {
+            int j = i;
+            Thread thread = builder.unstarted(() -> {
+                Task.IOIntensiveTask(j);
+                latch.countDown();
+            });
+            thread.start();
+        }
+    }
+
+    private static void virtualThreadDemo() {
+        var latch = new CountDownLatch(MAX_PLATFORM);
+        Thread.Builder.OfVirtual builder = Thread.ofVirtual().name("dorota");
         for (int i = 0; i < MAX_PLATFORM; i++) {
             int j = i;
             Thread thread = builder.unstarted(() -> {
