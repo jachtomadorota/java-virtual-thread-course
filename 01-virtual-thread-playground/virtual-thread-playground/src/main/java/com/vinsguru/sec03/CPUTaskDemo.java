@@ -8,10 +8,19 @@ import java.util.concurrent.CountDownLatch;
 @Slf4j
 public class CPUTaskDemo {
 
-    private static final int TASKS_COUNT = 2 * Runtime.getRuntime().availableProcessors();
+    private static final int TASKS_COUNT = 3 * Runtime.getRuntime().availableProcessors();
 
     static void main() {
-        demo(Thread.ofPlatform());
+        log.info("Task count:{}", TASKS_COUNT);
+        for (int i = 0; i < 3; i++) {
+            var totalTimeTaken = CommonUtils.timer(() -> demo(Thread.ofVirtual()));
+            log.info("Total time taken of Virtual Threads: {}", totalTimeTaken);
+        }
+
+        for (int i = 0; i < 3; i++) {
+            var totalTimeTaken = CommonUtils.timer(() -> demo(Thread.ofVirtual()));
+            log.info("Total time taken of Platform Threads: {}", totalTimeTaken);
+        }
     }
     
     private static void demo(Thread.Builder builder) {
