@@ -11,9 +11,10 @@ public class Lec01AutoClosable {
 
 
     static void main() {
-        Executors.newSingleThreadExecutor()
-                .submit(Lec01AutoClosable::task);
-        log.info("submitted");
+        try (var executor = Executors.newSingleThreadExecutor()) {
+            executor.submit(Lec01AutoClosable::task);
+            log.info("submitted");
+        }
     }
 
     private static void task() {
