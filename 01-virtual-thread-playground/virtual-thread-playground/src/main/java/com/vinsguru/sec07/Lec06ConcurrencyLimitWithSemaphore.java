@@ -1,13 +1,11 @@
 package com.vinsguru.sec07;
 
-import com.vinsguru.sec07.aggregator.Product;
 import com.vinsguru.sec07.external.Client;
 import com.vinsguru.sec07.limiter.ConcurrencyLimiter;
 import com.vinsguru.util.CommonUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.Duration;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Slf4j
@@ -15,7 +13,8 @@ import java.util.concurrent.Executors;
 public class Lec06ConcurrencyLimitWithSemaphore {
 
     static void main() throws Exception {
-        execute(new ConcurrencyLimiter(Executors.newVirtualThreadPerTaskExecutor(), 30), 100);
+        var factory = Thread.ofVirtual().factory();
+        execute(new ConcurrencyLimiter(Executors.newThreadPerTaskExecutor(factory), 30), 100);
         CommonUtils.sleep(Duration.ofSeconds(10));
     }
 
