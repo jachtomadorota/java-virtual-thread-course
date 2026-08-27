@@ -13,10 +13,16 @@ public class Lec03AccessResponseUsingFuture {
 
     static void main() throws ExecutionException, InterruptedException {
         try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
-            Future<String> future = executor.submit(() -> Client.getProduct(1));
+            Future<String> product1 = executor.submit(() -> Client.getProduct(1));
+            Future<String> product2 = executor.submit(() -> Client.getProduct(2));
+            Future<String> product3 = executor.submit(() -> Client.getProduct(3));
+
             //blocking operation
-            var response = future.get();
-            log.info("product-1: {}", response);
+            var response1 = product1.get();
+            var response2 = product2.get();
+            var response3 = product3.get();
+
+            log.info("product-1: {}", product1);
         }
     }
 }
